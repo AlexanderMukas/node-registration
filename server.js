@@ -18,6 +18,12 @@ app.get('/register', (req, res) => {
     res.render('register.ejs')
 });
 
+app.post('/register', (req, res) => {
+    
+});
+
+
+
 app.listen(PORT, () => {
     console.log(`Server up on localhost:${PORT} ...`);
 });
