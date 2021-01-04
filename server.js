@@ -9,6 +9,15 @@ app.get('/', (req, res) => {
     res.render('index.ejs', { name: 'alex'} )
 });
 
+
+app.get('/login', (req, res) => {
+    res.render('login.ejs')
+});
+
+app.get('/register', (req, res) => {
+    res.render('register.ejs')
+});
+
 app.listen(PORT, () => {
     console.log(`Server up on localhost:${PORT} ...`);
 });
