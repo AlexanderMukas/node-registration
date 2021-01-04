@@ -2,7 +2,12 @@ const express = require('express');
 const app = express();
 
 const brypt = require('bcrypt');
+const passport = require('passport');
 const PORT = 3000;
+
+const initializePassport = require('./passport-config');
+initializePassport(passport);
+
 const users = [];
 
 app.set('view-engine', 'ejs');
