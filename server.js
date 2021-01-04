@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
 
+const brypt = require('bcrypt');
 const PORT = 3000;
+const users = [];
 
 app.set('view-engine', 'ejs');
 app.use(express.urlencoded( {extended: false}) );
@@ -24,12 +26,25 @@ app.get('/register', (req, res) => {
 });
 
 
-app.post('/register', (req, res) => {
-    console.log( `req.body.name = ${req.body.name} ` );
-    console.log( `req.body.email = ${req.body.email} ` );
-    console.log( `req.body.password = ${req.body.password} ` );
+app.post('/register', async (req, res) => {
+    // console.log( `req.body.name = ${req.body.name} ` );
+    // console.log( `req.body.email = ${req.body.email} ` );
+    // console.log( `req.body.password = ${req.body.password} ` );
+    try {
+        const hashedPassword = await brypt.hash(req.body.password, 10);
+        users.push( {
+            id: Date.now().toString(),
+            name : req.body.name,
+            email : req.body.email,
+            password : hashedPassword
+         });
+         res.redirect('/login');
+    } catch(err) {
+        res.redirect('/register');
+    }
 
-    res.render('well-reg.ejs');
+    // res.render('well-reg.ejs');
+    console.log(users);
 });
 
 app.listen(PORT, () => {
