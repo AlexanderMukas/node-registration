@@ -1,7 +1,13 @@
+if(process.env.NODE_ENV !== 'production') {
+    require('dotenv').config()
+}
+
+
 const express = require('express');
 const app = express();
 
 const flash = require('express-flash');
+const session = require('express-session');
 
 const brypt = require('bcrypt');
 const passport = require('passport');
@@ -20,6 +26,10 @@ app.set('view-engine', 'ejs');
 app.use(express.urlencoded( {extended: false}) );
 // 22:50
 app.use(flash());
+app.use(session({ 
+    secret: process.env.SESSION_SECRET
+})
+);
 
 app.get('/', (req, res) => {
     res.render('index.ejs', { name: 'alex'} )
