@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+const flash = require('express-flash');
+
 const brypt = require('bcrypt');
 const passport = require('passport');
 const PORT = 3000;
@@ -16,6 +18,8 @@ const users = [];
 
 app.set('view-engine', 'ejs');
 app.use(express.urlencoded( {extended: false}) );
+// 22:50
+app.use(flash());
 
 app.get('/', (req, res) => {
     res.render('index.ejs', { name: 'alex'} )
