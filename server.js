@@ -16,6 +16,7 @@ const users = [];
 
 
 const initializePassport = require('./passport-config');
+const { request } = require('express');
 
 initializePassport(
     passport,
@@ -41,7 +42,7 @@ app.use(passport.session());
 //-------------------------------
 
 app.get('/', (req, res) => {
-    res.render('index.ejs', { name: 'alex'} )
+    res.render('index.ejs', { name: req.user.name } )
 });
 
 
