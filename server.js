@@ -27,15 +27,17 @@ initializePassport(
 app.set('view-engine', 'ejs');
 app.use(express.urlencoded( {extended: false}) );
 
-// 22:50
+// 22:50-----------------------
 app.use(flash());
 app.use(session({ 
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
+//-------------------------------
 
 app.get('/', (req, res) => {
     res.render('index.ejs', { name: 'alex'} )
@@ -46,9 +48,16 @@ app.get('/login', (req, res) => {
     res.render('login.ejs')
 });
 
-app.post('/login', (req, res) => {
+// app.post('/login', (req, res) => {
 
-});
+// });
+
+// 25:40
+app.post('login', passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true
+}))
 
 app.get('/register', (req, res) => {
     res.render('register.ejs')
