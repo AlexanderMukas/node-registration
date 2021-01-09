@@ -46,7 +46,7 @@ app.get('/', checkAuthenticated, (req, res) => {
 });
 
 
-app.get('/login', (req, res) => {
+app.get('/login', checkNotAuthenticated, (req, res) => {
     res.render('login.ejs')
 });
 
@@ -55,18 +55,18 @@ app.get('/login', (req, res) => {
 // });
 
 // 25:40
-app.post('/login', passport.authenticate('local', {
+app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true
 }))
 
-app.get('/register', (req, res) => {
+app.get('/register', checkNotAuthenticated, (req, res) => {
     res.render('register.ejs')
 });
 
 
-app.post('/register', async (req, res) => {
+app.post('/register', checkNotAuthenticated, async (req, res) => {
     // console.log( `req.body.name = ${req.body.name} ` );
     // console.log( `req.body.email = ${req.body.email} ` );
     // console.log( `req.body.password = ${req.body.password} ` );
@@ -87,8 +87,8 @@ app.post('/register', async (req, res) => {
     console.log(users);
 });
 
-// check auth for homepage
 
+// check auth for homepage
 function checkAuthenticated(req, res, next) {
     if(req.isAuthenticated()) {
         return next();
@@ -96,7 +96,14 @@ function checkAuthenticated(req, res, next) {
     res.redirect('/login');
 }   
 
+// check not auth for homepage
+function checkNotAuthenticated(req, res, next) {
+    if(req.isAuthenticated()) {
+        res.redirect('/')
+    }
+    next();
 
+}
 
 app.listen(PORT, () => {
     console.log(`Server up on localhost:${PORT} ...`);
