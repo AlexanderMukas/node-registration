@@ -11,6 +11,8 @@ const session = require('express-session');
 
 const brypt = require('bcrypt');
 const passport = require('passport');
+const methodOverride = require('method-override');
+
 const PORT = 3000;
 const users = [];
 
@@ -39,6 +41,7 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(methodOverride('_method'));
 //-------------------------------
 
 app.get('/', checkAuthenticated, (req, res) => {
@@ -84,9 +87,13 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
     }
 
     // res.render('well-reg.ejs');
-    console.log(users);
+    // console.log(users);
 });
 
+app.delete('/logout', (req, res) => {
+    req.logOut();
+    req.redirect('/login');
+})
 
 // check auth for homepage
 function checkAuthenticated(req, res, next) {
@@ -99,7 +106,7 @@ function checkAuthenticated(req, res, next) {
 // check not auth for homepage
 function checkNotAuthenticated(req, res, next) {
     if(req.isAuthenticated()) {
-        res.redirect('/')
+        return res.redirect('/')
     }
     next();
 
