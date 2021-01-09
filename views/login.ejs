@@ -1,9 +1,10 @@
 <h1>Login</h1>
 
+<p style="color: brown;">
 <% if (messages.error) { %>
     <%= messages.error %>
     <% } %> 
-
+</p>
 <form action="/login" method="POST">
     <div>
         <label for="email">email: </label>
