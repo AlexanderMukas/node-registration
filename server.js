@@ -12,6 +12,8 @@ const session = require('express-session');
 const brypt = require('bcrypt');
 const passport = require('passport');
 const PORT = 3000;
+const users = [];
+
 
 const initializePassport = require('./passport-config');
 
@@ -20,7 +22,7 @@ initializePassport(
     email => users.find( user => user.email === email)
 );
 
-const users = [];
+
 
 app.set('view-engine', 'ejs');
 app.use(express.urlencoded( {extended: false}) );
